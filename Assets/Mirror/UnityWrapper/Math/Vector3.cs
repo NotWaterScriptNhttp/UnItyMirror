@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace UnityEngine
 {
@@ -12,5 +12,7 @@ namespace UnityEngine
             this.y = y;
             this.z = z;
         }
+
+        public static Vector3 operator-(Vector3 v) => new Vector3(v.x, v.y, v.z);
     }
 }

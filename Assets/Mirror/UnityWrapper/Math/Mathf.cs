@@ -1,9 +1,14 @@
-﻿using System;
+using System;
 
 namespace UnityEngine
 {
     public static class Mathf
     {
+        public static readonly float Epsilon = float.Epsilon == 0 ? 1.17549435E-38f : float.Epsilon;
+
+        public static float Sqrt(float f) => (float)Math.Sqrt((double)f);
+        public static float Abs(float f) => Math.Abs(f);
+
         public static int Max(int a1, int a2) => Math.Max(a1, a2);
 
         public static int Clamp(int v, int min, int max)
