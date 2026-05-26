@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D7948180-00DA-4ECD-BF3D-4BD10E25B11A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UnItyMirror</RootNamespace>
+    <AssemblyName>UnItyMirror</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Attributes.cs" />
+    <Compile Include="Batching\Batcher.cs" />
+    <Compile Include="Batching\Unbatcher.cs" />
+    <Compile Include="ConnectionQuality.cs" />
+    <Compile Include="HostMode.cs" />
+    <Compile Include="InterestManagement.cs" />
+    <Compile Include="InterestManagementBase.cs" />
+    <Compile Include="LagCompensation\Capture.cs" />
+    <Compile Include="LagCompensation\HistoryBounds.cs" />
+    <Compile Include="LagCompensation\LagCompensation.cs" />
+    <Compile Include="LagCompensation\LagCompensationSettings.cs" />
+    <Compile Include="LagCompensation\MinMaxBounds.cs" />
+    <Compile Include="LocalConnectionToClient.cs" />
+    <Compile Include="LocalConnectionToServer.cs" />
+    <Compile Include="Messages.cs" />
+    <Compile Include="NetworkAuthenticator.cs" />
+    <Compile Include="NetworkBehaviour.cs" />
+    <Compile Include="NetworkBehaviourSyncVar.cs" />
+    <Compile Include="NetworkClient.cs" />
+    <Compile Include="NetworkClient_TimeInterpolation.cs" />
+    <Compile Include="NetworkConnection.cs" />
+    <Compile Include="NetworkConnectionToClient.cs" />
+    <Compile Include="NetworkConnectionToServer.cs" />
+    <Compile Include="NetworkDiagnostics.cs" />
+    <Compile Include="NetworkIdentity.cs" />
+    <Compile Include="NetworkLoop.cs" />
+    <Compile Include="NetworkManager.cs" />
+    <Compile Include="NetworkManagerHUD.cs" />
+    <Compile Include="NetworkMessage.cs" />
+    <Compile Include="NetworkMessages.cs" />
+    <Compile Include="NetworkReader.cs" />
+    <Compile Include="NetworkReaderExtensions.cs" />
+    <Compile Include="NetworkReaderPool.cs" />
+    <Compile Include="NetworkReaderPooled.cs" />
+    <Compile Include="NetworkServer.cs" />
+    <Compile Include="NetworkStartPosition.cs" />
+    <Compile Include="NetworkTime.cs" />
+    <Compile Include="NetworkWriter.cs" />
+    <Compile Include="NetworkWriterExtensions.cs" />
+    <Compile Include="NetworkWriterPool.cs" />
+    <Compile Include="NetworkWriterPooled.cs" />
+    <Compile Include="PortTransport.cs" />
+    <Compile Include="Prediction\Prediction.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RemoteCalls.cs" />
+    <Compile Include="SnapshotInterpolation\Snapshot.cs" />
+    <Compile Include="SnapshotInterpolation\SnapshotInterpolation.cs" />
+    <Compile Include="SnapshotInterpolation\SnapshotInterpolationSettings.cs" />
+    <Compile Include="SnapshotInterpolation\TimeSnapshot.cs" />
+    <Compile Include="SyncDictionary.cs" />
+    <Compile Include="SyncList.cs" />
+    <Compile Include="SyncObject.cs" />
+    <Compile Include="SyncSet.cs" />
+    <Compile Include="Threading\ConcurrentNetworkWriterPool.cs" />
+    <Compile Include="Threading\ConcurrentNetworkWriterPooled.cs" />
+    <Compile Include="Threading\ConcurrentPool.cs" />
+    <Compile Include="Threading\ThreadLog.cs" />
+    <Compile Include="Threading\WorkerThread.cs" />
+    <Compile Include="Tools\AccurateInterval.cs" />
+    <Compile Include="Tools\Compression.cs" />
+    <Compile Include="Tools\CustomStructs\Half.cs" />
+    <Compile Include="Tools\CustomStructs\Vector2Byte.cs" />
+    <Compile Include="Tools\CustomStructs\Vector2SByte.cs" />
+    <Compile Include="Tools\CustomStructs\Vector3Byte.cs" />
+    <Compile Include="Tools\CustomStructs\Vector3Long.cs" />
+    <Compile Include="Tools\CustomStructs\Vector3SByte.cs" />
+    <Compile Include="Tools\CustomStructs\Vector4Byte.cs" />
+    <Compile Include="Tools\CustomStructs\Vector4Long.cs" />
+    <Compile Include="Tools\CustomStructs\Vector4SByte.cs" />
+    <Compile Include="Tools\DeltaCompression.cs" />
+    <Compile Include="Tools\ExponentialMovingAverage.cs" />
+    <Compile Include="Tools\Extensions.cs" />
+    <Compile Include="Tools\Mathd.cs" />
+    <Compile Include="Tools\Pool.cs" />
+    <Compile Include="Tools\TimeSample.cs" />
+    <Compile Include="Tools\Utils.cs" />
+    <Compile Include="Transport.cs" />
+    <Compile Include="TransportError.cs" />
+    <Compile Include="WeaverFuse.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Tools\Readme.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
