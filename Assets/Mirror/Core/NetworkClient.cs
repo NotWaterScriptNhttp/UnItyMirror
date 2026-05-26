@@ -95,6 +95,7 @@ namespace Mirror
         public static Action OnDisconnectedEvent;
         public static Action<TransportError, string> OnErrorEvent;
         public static Action<Exception> OnTransportExceptionEvent;
+        public static Func<NetworkReader, int, bool> OnUnpackAndInvoke;
 
         internal static Unbatcher unbatcher = new Unbatcher();
 
@@ -249,6 +250,9 @@ namespace Mirror
         // helper function
         static bool UnpackAndInvoke(NetworkReader reader, int channelId)
         {
+            if (OnUnpackAndInvoke != null && OnUnpackAndInvoke.Invoke(reader, channelId))
+                return true;
+
             if (NetworkMessages.UnpackId(reader, out ushort msgType))
             {
                 // try to invoke the handler for that message
