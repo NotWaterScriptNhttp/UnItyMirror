@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="Core/UnItyMirror.csproj" Id="d7948180-00da-4ecd-bf3d-4bd10e25b11a" />
+  <Project Path="UnityWrapper/UnityWrapper.csproj" Id="80d954da-2661-46c4-b10e-c9f164bc4d64" />
 </Solution>
