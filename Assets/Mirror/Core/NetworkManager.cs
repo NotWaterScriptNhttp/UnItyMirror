@@ -135,7 +135,7 @@ namespace Mirror
         // fixes issues where NetworkServer.sendRate was never set because
         // NetworkManager.StartServer was never called, etc.
         // => all exposed settings should be applied at all times if NM exists.
-        void ApplyConfiguration()
+        public void ApplyConfiguration()
         {
             NetworkServer.tickRate = sendRate;
             NetworkServer.unreliableBaselineRate = unreliableBaselineRate;
