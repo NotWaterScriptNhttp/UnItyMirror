@@ -24,19 +24,6 @@ namespace Mirror
     // this will be iterated on over time based on user feedback.
     public static class ConnectionQualityHeuristics
     {
-        // convenience extension to color code Connection Quality
-        public static Color ColorCode(this ConnectionQuality quality)
-        {
-            switch (quality)
-            {
-                case ConnectionQuality.POOR: return Color.red;
-                case ConnectionQuality.FAIR: return new Color(1.0f, 0.647f, 0.0f);
-                case ConnectionQuality.GOOD: return Color.yellow;
-                case ConnectionQuality.EXCELLENT: return Color.green;
-                default: return Color.gray;  // ESTIMATING
-            }
-        }
-
         // straight forward estimation
         //   rtt: average round trip time in seconds.
         //   jitter: average latency variance.

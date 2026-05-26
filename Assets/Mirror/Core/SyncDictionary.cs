@@ -356,37 +356,13 @@ namespace Mirror
             }
 
             // Decide whether to fire Actions
-            bool hostInitialSpawnInHostMode = NetworkServer.activeHost && networkBehaviour.netIdentity.hostInitialSpawn;
+            bool hostInitialSpawnInHostMode = NetworkServer.activeHost;
             bool shouldFireActions = shouldApplyChanges || hostInitialSpawnInHostMode;
-
-            // IMPORTANT:  For ServerToClient mode, only fire Actions if object is visible to host client
-            // This prevents Actions from firing at spawn for objects out of AOI range
-            if (shouldFireActions && NetworkServer.activeHost && networkBehaviour.syncDirection == SyncDirection.ServerToClient)
-            {
-                shouldFireActions = NetworkClient.spawned.ContainsKey(networkBehaviour.netIdentity.netId);
-            }
 
             if (shouldFireActions)
             {
-                // Defer Actions during initial spawn on pure client to eliminate
-                // cross-object reference race conditions. All objects will be in
-                // NetworkClient.spawned before any Actions fire.
-                if (NetworkClient.active && !NetworkServer.active && !NetworkClient.isSpawnFinished)
-                {
-                    // Capture values in closure for deferred execution
-                    Operation capturedOp = op;
-                    TKey capturedKey = key;
-                    TValue capturedItem = item;
-                    TValue capturedOld = oldItem;
-
-                    networkBehaviour.deferredSyncCollectionActions.Add(() =>
-                        InvokeActions(capturedOp, capturedKey, capturedItem, capturedOld));
-                }
-                else
-                {
-                    // Normal:  invoke immediately (host mode, server, or after spawn finished)
-                    InvokeActions(op, key, item, oldItem);
-                }
+                // Normal:  invoke immediately (host mode, server, or after spawn finished)
+                InvokeActions(op, key, item, oldItem);
             }
         }
 

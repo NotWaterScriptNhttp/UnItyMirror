@@ -2,21 +2,11 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.SceneManagement;
 
 namespace Mirror
 {
     // Handles network messages on client and server
     public delegate void NetworkMessageDelegate(NetworkConnection conn, NetworkReader reader, int channelId);
-
-    // Handles requests to spawn objects on the client
-    public delegate GameObject SpawnDelegate(Vector3 position, uint assetId);
-
-    public delegate GameObject SpawnHandlerDelegate(SpawnMessage msg);
-
-    // Handles requests to unspawn objects on the client
-    public delegate void UnSpawnDelegate(GameObject spawned);
 
     // channels are const ints instead of an enum so people can add their own
     // channels (can't extend an enum otherwise).
@@ -43,20 +33,10 @@ namespace Mirror
         // It is intentional for editor play mode to auto-start headless server / client
         //    when Dedicated Server platform is selected in the editor so that editor
         //    acts like a headless build to every extent possible for testing / debugging.
-        public static bool IsHeadless() =>
-#if UNITY_SERVER
-            true;
-#else
-            SystemInfo.graphicsDeviceType == GraphicsDeviceType.Null;
-#endif
+        public static bool IsHeadless() => true;
 
         // detect WebGL mode
-        public const bool IsWebGL =
-#if UNITY_WEBGL
-            true;
-#else
-            false;
-#endif
+        public const bool IsWebGL = false;
 
         // detect Debug mode
         public const bool IsDebug =
@@ -76,58 +56,6 @@ namespace Mirror
                 return BitConverter.ToUInt32(bytes, 0);
             }
         }
-
-        public static bool IsPrefab(GameObject obj)
-        {
-#if UNITY_EDITOR
-            return UnityEditor.PrefabUtility.IsPartOfPrefabAsset(obj);
-#else
-            return false;
-#endif
-        }
-
-        // simplified IsSceneObject check from Mirror II
-        public static bool IsSceneObject(NetworkIdentity identity)
-        {
-            // original UNET / Mirror still had the IsPersistent check.
-            // it never fires though. even for Prefabs dragged to the Scene.
-            // (see Scene Objects example scene.)
-            // #if UNITY_EDITOR
-            //             if (UnityEditor.EditorUtility.IsPersistent(identity.gameObject))
-            //                 return false;
-            // #endif
-
-            return identity.gameObject.hideFlags != HideFlags.NotEditable &&
-                identity.gameObject.hideFlags != HideFlags.HideAndDontSave &&
-                identity.sceneId != 0;
-        }
-
-        public static bool IsSceneObjectWithPrefabParent(GameObject gameObject, out GameObject prefab)
-        {
-            prefab = null;
-
-#if UNITY_EDITOR
-            if (!UnityEditor.PrefabUtility.IsPartOfPrefabInstance(gameObject))
-            {
-                return false;
-            }
-            prefab = UnityEditor.PrefabUtility.GetCorrespondingObjectFromSource(gameObject);
-#endif
-
-            if (prefab == null)
-            {
-                Debug.LogError($"Failed to find prefab parent for scene object [name:{gameObject.name}]");
-                return false;
-            }
-            return true;
-        }
-
-        // is a 2D point in screen? (from ummorpg)
-        // (if width = 1024, then indices from 0..1023 are valid (=1024 indices)
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool IsPointInScreen(Vector2 point) =>
-            0 <= point.x && point.x < Screen.width &&
-            0 <= point.y && point.y < Screen.height;
 
         // pretty print bytes as KB/MB/GB/etc. from DOTSNET
         // long to support > 2GB
@@ -164,43 +92,6 @@ namespace Mirror
             return res != "" ? res : "0s";
         }
 
-        // universal .spawned function
-        public static NetworkIdentity GetSpawnedInServerOrClient(uint netId)
-        {
-            // server / host mode: use the one from server.
-            // host mode has access to all spawned.
-            if (NetworkServer.active)
-            {
-                NetworkServer.spawned.TryGetValue(netId, out NetworkIdentity entry);
-                return entry;
-            }
-
-            // client
-            if (NetworkClient.active)
-            {
-                NetworkClient.spawned.TryGetValue(netId, out NetworkIdentity entry);
-                return entry;
-            }
-
-            return null;
-        }
-
-        // keep a GUI window in screen.
-        // for example. if it's at x=1000 and screen is resized to w=500,
-        // it won't get lost in the invisible area etc.
-        public static Rect KeepInScreen(Rect rect)
-        {
-            // ensure min
-            rect.x = Math.Max(rect.x, 0);
-            rect.y = Math.Max(rect.y, 0);
-
-            // ensure max
-            rect.x = Math.Min(rect.x, Screen.width - rect.width);
-            rect.y = Math.Min(rect.y, Screen.width - rect.height);
-
-            return rect;
-        }
-
         // create local connections pair and connect them
         public static void CreateLocalConnections(
             out LocalConnectionToClient connectionToClient,
@@ -210,13 +101,6 @@ namespace Mirror
             connectionToClient = new LocalConnectionToClient();
             connectionToServer.connectionToClient = connectionToClient;
             connectionToClient.connectionToServer = connectionToServer;
-        }
-
-        public static bool IsSceneActive(string scene)
-        {
-            Scene activeScene = SceneManager.GetActiveScene();
-            return activeScene.path == scene ||
-                   activeScene.name == scene;
         }
     }
 }

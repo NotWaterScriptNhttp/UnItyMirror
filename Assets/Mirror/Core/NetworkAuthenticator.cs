@@ -1,32 +1,18 @@
 using System;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Mirror
 {
-#if !UNITY_2020_3_OR_NEWER
-    /// <summary>UnityEvent subclass for notifying when a client is authenticated on the server</summary>
-    [Serializable]
-    public class NetworkConnectionToClientEvent : UnityEvent<NetworkConnectionToClient> { }
-#endif
-
-    /// <summary>Base class for implementing component-based authentication during the Connect phase</summary>
-    [HelpURL("https://mirror-networking.gitbook.io/docs/components/network-authenticators")]
-    public abstract class NetworkAuthenticator : MonoBehaviour
+    public abstract class NetworkAuthenticator
     {
+        public delegate void OnNetworkConnectionToClientDelegate(NetworkConnectionToClient networkConnectionToClient);
+        public delegate void OnClientAuthDelegate();
+
         /// <summary>Notify subscribers on the server when a client is authenticated</summary>
-        [Header("Event Listeners (optional)")]
-        [Tooltip("Mirror has an internal subscriber to this event. You can add your own here.")]
-#if !UNITY_2020_3_OR_NEWER
-        // Unity 2019 compatibility
-        public NetworkConnectionToClientEvent OnServerAuthenticated = new NetworkConnectionToClientEvent();
-#else
-        public UnityEvent<NetworkConnectionToClient> OnServerAuthenticated = new UnityEvent<NetworkConnectionToClient>();
-#endif
+        public event OnNetworkConnectionToClientDelegate OnServerAuthenticated;
 
         /// <summary>Notify subscribers on the client when the client is authenticated</summary>
-        [Tooltip("Mirror has an internal subscriber to this event. You can add your own here.")]
-        public UnityEvent OnClientAuthenticated = new UnityEvent();
+        public event OnClientAuthDelegate OnClientAuthenticated;
 
         /// <summary>Called when server starts, used to register message handlers if needed.</summary>
         public virtual void OnStartServer() {}

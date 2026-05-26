@@ -112,33 +112,6 @@ namespace Mirror
         }
 #endif
 
-#if !UNITY_2021_3_OR_NEWER
-        // Some patch versions of Unity 2021.3 and earlier don't have transform.GetPositionAndRotation which we use for performance in some places
-        public static void GetPositionAndRotation(this Transform transform, out Vector3 position, out Quaternion rotation)
-        {
-            position = transform.position;
-            rotation = transform.rotation;
-        }
-
-        public static void SetPositionAndRotation(this Transform transform, Vector3 position, Quaternion rotation)
-        {
-            transform.position = position;
-            transform.rotation = rotation;
-        }
-
-        public static void GetLocalPositionAndRotation(this Transform transform, out Vector3 position, out Quaternion rotation)
-        {
-            position = transform.localPosition;
-            rotation = transform.localRotation;
-        }
-
-        public static void SetLocalPositionAndRotation(this Transform transform, Vector3 position, Quaternion rotation)
-        {
-            transform.localPosition = position;
-            transform.localRotation = rotation;
-        }
-#endif
-
         // IPEndPoint address only to pretty string.
         // useful for to get a connection's address for IP bans etc.
         public static string PrettyAddress(this IPEndPoint endPoint)

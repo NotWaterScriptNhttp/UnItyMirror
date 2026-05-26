@@ -4,7 +4,6 @@
 using System;
 using System.Diagnostics;
 using System.Threading;
-using UnityEngine.Profiling;
 using Debug = UnityEngine.Debug;
 
 namespace Mirror
@@ -115,17 +114,11 @@ namespace Mirror
         // etc.
         public void Guard(string identifier)
         {
-            // register this thread with ThreadLog so it captures our logs
-            ThreadLog.RegisterThread(Thread.CurrentThread.ManagedThreadId);
-
             try
             {
                 // log when work begins = thread starts.
                 // very important for debugging threads.
                 Debug.Log($"{identifier}: started.");
-
-                // show this thread in Unity profiler
-                Profiler.BeginThreadProfiling("Mirror Worker Threads", $"{identifier}");
 
                 // run init once
                 OnInit();
@@ -159,16 +152,10 @@ namespace Mirror
                 active = false;
                 OnCleanup();
 
-                // remove this thread from Unity profiler
-                Profiler.EndThreadProfiling();
-
                 // log when work ends = thread terminates.
                 // very important for debugging threads.
                 // 'finally' to log no matter what (even if exceptions)
                 Debug.Log($"{identifier}: ended.");
-
-                // unregister this thread from ThreadLog
-                ThreadLog.UnregisterThread(Thread.CurrentThread.ManagedThreadId);
             }
         }
     }

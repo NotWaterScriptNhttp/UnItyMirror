@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -47,29 +49,18 @@
     <Compile Include="Batching\Unbatcher.cs" />
     <Compile Include="ConnectionQuality.cs" />
     <Compile Include="HostMode.cs" />
-    <Compile Include="InterestManagement.cs" />
-    <Compile Include="InterestManagementBase.cs" />
-    <Compile Include="LagCompensation\Capture.cs" />
-    <Compile Include="LagCompensation\HistoryBounds.cs" />
-    <Compile Include="LagCompensation\LagCompensation.cs" />
-    <Compile Include="LagCompensation\LagCompensationSettings.cs" />
-    <Compile Include="LagCompensation\MinMaxBounds.cs" />
     <Compile Include="LocalConnectionToClient.cs" />
     <Compile Include="LocalConnectionToServer.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="NetworkAuthenticator.cs" />
-    <Compile Include="NetworkBehaviour.cs" />
-    <Compile Include="NetworkBehaviourSyncVar.cs" />
     <Compile Include="NetworkClient.cs" />
     <Compile Include="NetworkClient_TimeInterpolation.cs" />
     <Compile Include="NetworkConnection.cs" />
     <Compile Include="NetworkConnectionToClient.cs" />
     <Compile Include="NetworkConnectionToServer.cs" />
     <Compile Include="NetworkDiagnostics.cs" />
-    <Compile Include="NetworkIdentity.cs" />
     <Compile Include="NetworkLoop.cs" />
     <Compile Include="NetworkManager.cs" />
-    <Compile Include="NetworkManagerHUD.cs" />
     <Compile Include="NetworkMessage.cs" />
     <Compile Include="NetworkMessages.cs" />
     <Compile Include="NetworkReader.cs" />
@@ -77,16 +68,13 @@
     <Compile Include="NetworkReaderPool.cs" />
     <Compile Include="NetworkReaderPooled.cs" />
     <Compile Include="NetworkServer.cs" />
-    <Compile Include="NetworkStartPosition.cs" />
     <Compile Include="NetworkTime.cs" />
     <Compile Include="NetworkWriter.cs" />
     <Compile Include="NetworkWriterExtensions.cs" />
     <Compile Include="NetworkWriterPool.cs" />
     <Compile Include="NetworkWriterPooled.cs" />
     <Compile Include="PortTransport.cs" />
-    <Compile Include="Prediction\Prediction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RemoteCalls.cs" />
     <Compile Include="SnapshotInterpolation\Snapshot.cs" />
     <Compile Include="SnapshotInterpolation\SnapshotInterpolation.cs" />
     <Compile Include="SnapshotInterpolation\SnapshotInterpolationSettings.cs" />
@@ -98,7 +86,6 @@
     <Compile Include="Threading\ConcurrentNetworkWriterPool.cs" />
     <Compile Include="Threading\ConcurrentNetworkWriterPooled.cs" />
     <Compile Include="Threading\ConcurrentPool.cs" />
-    <Compile Include="Threading\ThreadLog.cs" />
     <Compile Include="Threading\WorkerThread.cs" />
     <Compile Include="Tools\AccurateInterval.cs" />
     <Compile Include="Tools\Compression.cs" />
@@ -124,6 +111,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Tools\Readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UnityWrapper\UnityWrapper.csproj">
+      <Project>{80d954da-2661-46c4-b10e-c9f164bc4d64}</Project>
+      <Name>UnityWrapper</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

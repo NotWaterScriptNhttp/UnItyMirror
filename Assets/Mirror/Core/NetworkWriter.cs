@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Text;
-using Unity.Collections.LowLevel.Unsafe;
+
 using UnityEngine;
 
 namespace Mirror
@@ -211,7 +211,7 @@ namespace Mirror
                 // 10 mio writes: 775ms
                 //   Buffer.BlockCopy(value.Array, value.Offset, buffer, Position, value.Count);
                 // 10 mio writes: 637ms
-                UnsafeUtility.MemCpy(destination, ptr + offset, size);
+                Buffer.MemoryCopy(ptr + offset, destination, size, size);
             }
 
             Position += size;

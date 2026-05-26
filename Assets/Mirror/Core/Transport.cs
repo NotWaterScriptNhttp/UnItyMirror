@@ -30,7 +30,7 @@ using UnityEngine;
 namespace Mirror
 {
     /// <summary>Abstract transport layer component</summary>
-    public abstract class Transport : MonoBehaviour
+    public abstract class Transport
     {
         /// <summary>The current transport used by Mirror.</summary>
         public static Transport active;

@@ -21,10 +21,6 @@ namespace Mirror
         // clients don't know their own id and they don't know other client's ids.
         public readonly int connectionId;
 
-        /// <summary>NetworkIdentities that this connection can see</summary>
-        // TODO move to server's NetworkConnectionToClient?
-        public readonly HashSet<NetworkIdentity> observing = new HashSet<NetworkIdentity>();
-
         // unbatcher
         public Unbatcher unbatcher = new Unbatcher();
 
@@ -167,64 +163,6 @@ namespace Mirror
             // -> so all 'on disconnect' cleanup code needs to be in
             //    OnTransportDisconnect, where it's called for both voluntary
             //    and involuntary disconnects!
-        }
-
-        internal void AddToObserving(NetworkIdentity netIdentity)
-        {
-            observing.Add(netIdentity);
-
-            // spawn identity for this conn
-            NetworkServer.ShowForConnection(netIdentity, this);
-        }
-
-        internal void RemoveFromObserving(NetworkIdentity netIdentity, bool isDestroyed)
-        {
-            observing.Remove(netIdentity);
-
-            if (!isDestroyed)
-            {
-                // hide identity for this conn
-                NetworkServer.HideForConnection(netIdentity, this);
-            }
-        }
-
-        internal void RemoveFromObservingsObservers()
-        {
-            foreach (NetworkIdentity netIdentity in observing)
-            {
-                netIdentity.RemoveObserver(this);
-            }
-            observing.Clear();
-        }
-
-        internal void AddOwnedObject(NetworkIdentity obj)
-        {
-            owned.Add(obj);
-        }
-
-        internal void RemoveOwnedObject(NetworkIdentity obj)
-        {
-            owned.Remove(obj);
-        }
-
-        internal void DestroyOwnedObjects()
-        {
-            // create a copy because the list might be modified when destroying
-            HashSet<NetworkIdentity> tmp = new HashSet<NetworkIdentity>(owned);
-            foreach (NetworkIdentity netIdentity in tmp)
-            {
-                if (netIdentity != null)
-                {
-                    // disown scene objects, destroy instantiated objects.
-                    if (netIdentity.sceneId != 0)
-                        netIdentity.RemoveClientOwner();
-                    else
-                        NetworkServer.Destroy(netIdentity.gameObject);
-                }
-            }
-
-            // clear the hashset because we destroyed them all
-            owned.Clear();
         }
     }
 }

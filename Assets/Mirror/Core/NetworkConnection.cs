@@ -25,17 +25,6 @@ namespace Mirror
         /// <summary>Last time a message was received for this connection. Includes system and user messages.</summary>
         public float lastMessageTime;
 
-        /// <summary>This connection's main object (usually the player object).</summary>
-        public NetworkIdentity identity { get; internal set; }
-
-        /// <summary>All NetworkIdentities owned by this connection. Can be main player, pets, etc.</summary>
-        // .owned is now valid both on server and on client.
-        // IMPORTANT: this needs to be <NetworkIdentity>, not <uint netId>.
-        //            fixes a bug where DestroyOwnedObjects wouldn't find the
-        //            netId anymore: https://github.com/vis2k/Mirror/issues/1380
-        //            Works fine with NetworkIdentity pointers though.
-        public readonly HashSet<NetworkIdentity> owned = new HashSet<NetworkIdentity>();
-
         // batching from server to client & client to server.
         // fewer transport calls give us significantly better performance/scale.
         //
