@@ -11,8 +11,6 @@ namespace Mirror
     // generic classes have separate static fields per type specification
     public static class NetworkMessageId<T> where T : struct, NetworkMessage
     {
-        public static Func<Type, ushort> CustomIdFunc = null;
-
         // automated message id from type hash.
         // platform independent via stable hashcode.
         // => convenient so we don't need to track messageIds across projects
@@ -28,8 +26,8 @@ namespace Mirror
         // http://www.isthe.com/chongo/tech/comp/fnv/ in section "Changing the FNV hash size - xor-folding"
         static ushort CalculateId()
         {
-            if (CustomIdFunc != null)
-                return CustomIdFunc(typeof(T));
+            if (NetworkMessages.CustomIdFunc != null)
+                return NetworkMessages.CustomIdFunc(typeof(T));
 
             return typeof(T).FullName.GetStableHashCode16();
         }
@@ -49,6 +47,9 @@ namespace Mirror
         // important when debugging messageId errors!
         public static readonly Dictionary<ushort, Type> Lookup =
             new Dictionary<ushort, Type>();
+
+        // Custom hashing for message ids
+        public static Func<Type, ushort> CustomIdFunc = null;
 
         // dump all types for debugging
         public static void LogTypes()
